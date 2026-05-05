@@ -56,7 +56,6 @@
  *    len(v)
  *    strlen(s)
  *    substr(s, start, end)
- *    build_array(a)
  *
  *  Validation Helpers
  *    is_valid_token(token)
@@ -603,9 +602,9 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
                 } else if (type_name == "array") {
                     if (!IsArray(arg)) {
                         return "[^1error^7] you have a type mismatch (expected ^1array^7 got " + type(arg) + " at position ^1" + (i + 1) + ":" + (i + 2) + "^7)";
-                    } else {
-                        arg = build_array(arg);
-                    }
+                    } 
+                    arg = "[" + join(arg, ",") + "]";
+                    
                 } else if (type_name == "color") {
                     if (!IsColor(arg)) {
                         return "[^1error^7] you have a type mismatch (expected ^1color^7 got " + type(arg) + " at position ^1" + (i + 1) + ":" + (i + 2) + "^7)";
@@ -830,20 +829,6 @@ is_valid_number(v) {
         case "9": return true;
         default: return false;
     }
-}
-
-// build_array() Returns a string representation of an array
-build_array(a) {
-    arr = "[";
-    for (i = 0; i < a.size; i++) {
-        arr += a[i];
-        if (i < a.size - 1) {
-            arr += ", ";
-        }
-    }
-
-    arr += "]";
-    return arr;
 }
 
 // get_argument() Returns the argument at the specified index
