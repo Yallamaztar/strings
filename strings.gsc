@@ -34,25 +34,23 @@
  *    replace(s, from, to)
  *    split(s, sep)
  *    join(arr, sep)
- *    trim(s)
+ *    strip(s)
  *    contains(s, substr)
  *    reverse(s)
  *    char_at(s, index)
  *    index_of(s, substr)
- *    repeat(s, count)
- *    count(s, substr)
- *    remove(s, substr)
+ *    capitalize(s)
+ *    truncate(s, len, suffix)
  *
  *  Formatting / Printing
  *    sprintf(s, ...args)
  *    printf(s, ...args)
  *    printlnf(s, ...args)
- *    iprintlnf(s, ...args)
- *    iprintlnboldf(s, ...args)
+ *    iprintf(s, ...args)
+ *    iprintboldf(s, ...args)
  *
  *  Type / Conversion Helpers
  *    type(v)
- *    is_empty(s)
  *    tokentype(s)
  *    toint(s)
  *    len(v)
@@ -86,16 +84,14 @@
  *   printlnf("Parts: %a", parts); // prints: ["a", "b", "c"]
  *   
  *   level thread onPlayerConnect();
- * }
  *
  * onPlayerConnect() {
  *    level endon("game_ended");
  *    for(;;) {
  *       level waittill("connected", player);
  *       printlnf("Player connected: %s %c(guid: %d)", player.name, color_green, player.guid);
- *       player iprintlnboldf("Hello, %s!", player.name);
+ *       player iprintboldf("Hello, %s!", player.name);
  *    }
- * }
  * ```
  * ==================================================================
  */
@@ -120,11 +116,8 @@
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "Hello, world!";
- *   print(starts_with(s, "Hello")); // prints: 1 (true)
- * }
+ * s = "Hello, world!";
+ * print(starts_with(s, "Hello")); // prints: 1 (true)
  * ```
  */
 starts_with(s, prefix) {
@@ -143,11 +136,8 @@ starts_with(s, prefix) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "Hello, world!";
- *   print(ends_with(s, "!")); // prints: 1 (true)
- * }
+ * s = "Hello, world!";
+ * print(ends_with(s, "!")); // prints: 1 (true)
  * ```
  */
 ends_with(s, suffix) {
@@ -167,12 +157,9 @@ ends_with(s, suffix) {
  *
  * Example usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "hello world";
- *   s = replace(s, "world", "universe");
- *   print(s); // prints: hello universe
- * }
+ * s = "hello world";
+ * s = replace(s, "world", "universe");
+ * print(s); // prints: hello universe
  * ```
  */
 replace(s, from, to) {
@@ -201,14 +188,11 @@ replace(s, from, to) {
  *
  * Example usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "this;is;a;string";
- *   parts = split(s, ";");
+ * s = "this;is;a;string";
+ * parts = split(s, ";");
  *   
- *   for (i=0; i=len(parts); i++) {
- *     print(parts[i]); // prints: thisisastring
- *   }
+ * for (i=0; i=len(parts); i++) {
+ *   print(parts[i]); // prints: thisisastring
  * }
  * ```
  */
@@ -241,12 +225,9 @@ split(s, sep) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   arr = array("Hello", "world!");
- *   s = join(arr, " ");
- *   print(s); // prints: Hello world!
- * }
+ * arr = array("Hello", "world!");
+ * s = join(arr, " ");
+ * print(s); // prints: Hello world!
  * ```
  */
 join(arr, sep) {
@@ -261,25 +242,21 @@ join(arr, sep) {
 }
 
 /*
- * trim() Removes leading and trailing whitespace from a string
+ * strip() Removes leading and trailing whitespace from a string
  *
  * Params:
- *   s - The string to trim
+ *   s - The string to strip
  *
  * Returns:
- *    The trimmed string
+ *    The stripmed string
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "  hello world  ";
- *   s = trim(s);
- *   print(s); // prints: "hello world"
- * }
+ * s = strip("  hello world  ");
+ * print(s); // prints: "hello world"
  * ```
  */
-trim(s) {
+strip(s) {
     start = 0;
     end = strlen(s);
 
@@ -306,11 +283,8 @@ trim(s) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "Hello, world!";
- *   print(contains(s, "world")); // prints: 1 (true)
- * }
+ * s = "Hello, world!";
+ * print(contains(s, "world")); // prints: 1 (true)
  * ```
  */
 contains(s, prefix) {
@@ -333,17 +307,12 @@ contains(s, prefix) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "hello";
- *   s = reverse(s);
- *   print(s); // prints: "olleh"
+ * s = reverse("hello");
+ * print(s); // prints: "olleh"
  *
- *   arr = array("h", "e", "l", "l", "o")
- *   arr = reverse(arr);
- *   for (i=0; i<len(arr); i++) {
- *     print(arr[i]); // prints: "olleh"
- *   }
+ * arr = reverse(array("h", "e", "l", "l", "o"));
+ * for (i=0; i<len(arr); i++) {
+ *   print(arr[i]); // prints: "olleh"
  * }
  * ```
  */
@@ -379,12 +348,8 @@ reverse(v) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "hello";
- *   c = char_at(s, 0);
- *   print(c); // prints: "h"
- * }
+ * s = "hello";
+ * print(char_at(s, 0)); // prints: "h"
  * ```
  */
 char_at(s, index) {
@@ -403,12 +368,9 @@ char_at(s, index) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = "hello";
- *   i = index_of(s, "l");
- *   print(i); // prints: 2
- * }
+ * s = "hello";
+ * i = index_of(s, "l");
+ * print(i); // prints: 2
  * ```
  */
 index_of(s, substr) {
@@ -437,16 +399,13 @@ index_of(s, substr) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
- *   s = repeat("hello ", 3);
- *   print(s); // prints: "hello hello hello "
- * }
+ * s = repeat("hello ", 3);
+ * print(s); // prints: "hello hello hello "
  * ```
  */
-repeat(s, count) {
+repeat(s, times) {
     new = "";
-    for (i = 0; i < count; i++) {
+    for (i=0; i<times; i++) {
         new += s;
     }
     return new;
@@ -464,12 +423,9 @@ repeat(s, count) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
  *   s = "hello world, hello everyone";
  *   count = count(s, "hello");
  *   print(count); // prints: 2
- * }
  * ```
  */
 count(s, substr) {
@@ -481,7 +437,7 @@ count(s, substr) {
     for (i = 0; i <= strlen(s) - strlen(substr); i++) {
         if (substr(s, i, i + strlen(substr)) == substr) {
             count++;
-            i += strlen(needle) - 1;
+            i += strlen(substr) - 1;
         }
     }
 
@@ -500,11 +456,8 @@ count(s, substr) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
  *   s = remove("hello world, hello everyone", "hello");
  *   print(s); // prints: " world,  everyone"
- * }
  * ```
  */
 remove(s, substr) {
@@ -513,9 +466,9 @@ remove(s, substr) {
     }
 
     new = "";
-    for (i = 0; i <= strlen(s) - strlen(needle); ) {
-        if (substr(s, i, i + strlen(needle)) == needle) {
-            i += strlen(needle);
+    for (i = 0; i <= strlen(s) - strlen(substr); ) {
+        if (substr(s, i, i + strlen(substr)) == substr) {
+            i += strlen(substr);
         } else {
             new += substr(s, i, i + 1);
             i++;
@@ -530,6 +483,44 @@ remove(s, substr) {
     return new;
 }
 
+/*
+ * capitalize() Converts the first character of a string to uppercase
+ *
+ * Params:
+ *   s - The string to capitalize
+ *
+ * Returns:
+ *    The capitalized string
+ *
+ * Example Usage:
+ * ```
+ *   s = capitalize("hello");
+ *   print(s); // prints: "Hello"
+ * ```
+ */
+capitalize(s) {
+    new = "";
+
+    new += ToUpper(substr(s, 0, 1));
+    for (i = 1; i < strlen(s); i++) {
+        new += s[i];
+    }
+
+    return new;
+}
+
+truncate(s, len, suffix) {
+    if (s.size <= len) {
+        return s;
+    }
+
+    new = "";
+    for (i = 0; i < len; i++) {
+        new += substr(s, i, i + 1);
+    }
+
+    return new + suffix;
+}
 /*
  * sprintf() Formats a string with the given arguments
  *
@@ -553,8 +544,6 @@ remove(s, substr) {
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
  *   sprintf("Hello, %s", "World");
  *   sprintf("The answer is %d", -42);
  *   sprintf("The value is %u", 42);
@@ -562,7 +551,6 @@ remove(s, substr) {
  *   sprintf("The boolean value is %t", true);
  *   sprintf("Hello, %a", array("w", "o", "r", "l", "d"));
  *   sprintf("%cThe color is yellow", "^3");
- * }
  * ```
  */
 sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
@@ -645,10 +633,7 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
 
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
  *   printf("Hello, %s", "World"); // prints: Hello, World
- * }
  * ```
  */
 printf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
@@ -666,10 +651,7 @@ printf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a
  *
  * Example Usage:
  * ```
- * #include scripts\strings;
- * init() {
  *   printlnf("Hello, %s", "World"); // prints: Hello, World\n
- * }
  * ```
  */
 printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
@@ -677,7 +659,7 @@ printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z,
 }
 
 /*
- * iprintlnf() iprintln's a formatted string to a given entity
+ * iprintf() iprintln's a formatted string to a given entity
  * 
  * Params:
  *   s - The format string
@@ -696,17 +678,16 @@ printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z,
  *   for(;;) {
  *      level waittill("connected", player);
  *      wait 5;
- *      player iprintlnf("Hello, %s", player.name);
+ *      player iprintf("Hello, %s", player.name);
  *   }
- * }
  * ```
  */
-iprintlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
+iprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
     iprintln(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
 }
 
 /*
- * iprintlnboldf() iprintlnbold's a formatted string to a given entity
+ * iprintboldf() iprintlnbold's a formatted string to a given entity
  * 
  * Params:
  *   s - The format string
@@ -725,12 +706,11 @@ iprintlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z
  *   for(;;) {
  *      level waittill("connected", player);
  *      wait 5;
- *      player iprintlnboldf("Hello, %s", player.name);
+ *      player iprintboldf("Hello, %s", player.name);
  *   }
- * }
  * ```
  */
-iprintlnboldf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
+iprintboldf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
     iprintlnbold(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
 }
 
@@ -803,8 +783,7 @@ type(v) {
 }
 
 is_empty(s) {
-    if (s == "" || strlen(s) == 0) return true;
-    return false;
+    
 }
 
 // IsUInt() Returns true if a variable is an unsigned integer
