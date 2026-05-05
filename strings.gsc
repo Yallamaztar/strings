@@ -737,6 +737,11 @@ strlen(s) {
     return s.size;
 }
 
+// is_empty() Returns true if a string is empty
+is_empty(s) {
+    return s == "";
+}
+
 // substr() Returns a substring of a string
 substr(s, start, end) {
     return GetSubStr(s, start, end);
