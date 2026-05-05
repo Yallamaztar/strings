@@ -102,6 +102,7 @@
 #define float_t "f"
 #define array_t "a"
 #define color_t "c"
+#define json_t "j"
 
 /*
  * starts_with() Checks if a string starts with a specific prefix
@@ -520,6 +521,7 @@ truncate(s, len, suffix) {
 
     return new + suffix;
 }
+
 /*
  * sprintf() Formats a string with the given arguments
  *
@@ -538,6 +540,7 @@ truncate(s, len, suffix) {
  *   %f  ->  float
  *   %a  ->  array
  *   %c  ->  color code
+ *   %j  ->  json
  *
  * Limitations: only supports 35 arguments
  *
@@ -550,6 +553,7 @@ truncate(s, len, suffix) {
  *   sprintf("The boolean value is %t", true);
  *   sprintf("Hello, %a", array("w", "o", "r", "l", "d"));
  *   sprintf("%cThe color is yellow", "^3");
+ *   sprintf("The JSON is %j", "{\"key\": \"value\"}");
  * ```
  */
 sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
@@ -604,11 +608,15 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
                         return "[^1error^7] you have a type mismatch (expected ^1array^7 got " + type(arg) + " at position ^1" + (i + 1) + ":" + (i + 2) + "^7)";
                     } 
                     arg = "[" + join(arg, ",") + "]";
-                    
                 } else if (type_name == "color") {
                     if (!IsColor(arg)) {
                         return "[^1error^7] you have a type mismatch (expected ^1color^7 got " + type(arg) + " at position ^1" + (i + 1) + ":" + (i + 2) + "^7)";
                     }
+                } else if (type_name == "json") {
+                    if (!IsArray(arg)) {
+                        return "[^1error^7] invalid json at position ^1" + (i + 1) + ":" + (i + 2) + "^7";
+                    }
+                    arg = "{" + join(arg, ",") + "}";
                 }
                 new += arg;
             }
@@ -755,13 +763,14 @@ tokentype(s) {
         case float_t: return "float";
         case array_t: return "array";
         case color_t: return "color";
+        case json_t: return "json";
         default: return "unknown";
     }
 }
 
 // is_valid_token() Returns true if a token is valid
 is_valid_token(token) {
-    if (token != string_t && token != integer_t && token != uinteger_t && token != boolean_t && token != float_t && token != array_t && token != color_t) {
+    if (token != string_t && token != integer_t && token != uinteger_t && token != boolean_t && token != float_t && token != array_t && token != color_t && token != json_t) {
         return false;
     }
     return true;
@@ -777,12 +786,9 @@ type(v) {
     if (IsInt(v)) return "integer";
     if (IsFloat(v)) return "float";
     if (IsColor(v)) return "color";
+    if (IsJson(v)) return "json";
 
     return "unknown";
-}
-
-is_empty(s) {
-    
 }
 
 // IsUInt() Returns true if a variable is an unsigned integer
