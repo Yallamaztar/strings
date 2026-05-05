@@ -62,7 +62,7 @@
  * ```
  * #include scripts\strings;
  *
- * #defined color_green "^2"
+ * #define color_green "^2"
  *
  * init() {
  *   s = "hello world";
