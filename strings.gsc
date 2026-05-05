@@ -542,21 +542,22 @@ truncate(s, len, suffix) {
  *   %c  ->  color code
  *   %j  ->  json
  *
- * Limitations: only supports 35 arguments
+ * Limitations: only supports 45 arguments
  *
  * Example Usage:
  * ```
- *   sprintf("Hello, %s", "World");
- *   sprintf("The answer is %d", -42);
- *   sprintf("The value is %u", 42);
- *   sprintf("The value is %f", 3.14);
- *   sprintf("The boolean value is %t", true);
- *   sprintf("Hello, %a", array("w", "o", "r", "l", "d"));
- *   sprintf("%cThe color is yellow", "^3");
- *   sprintf("The JSON is %j", "{\"key\": \"value\"}");
+ *   sprintf("Hello, %s", "World");                        // prints: "Hello, World"
+ *   sprintf("The answer is %d", -42);                     // prints: "The answer is -42"
+ *   sprintf("The value is %u", 42);                       // prints: "The value is 42"
+ *   sprintf("The value is %f", 3.14);                     // prints: "The value is 3.14"
+ *   sprintf("The boolean value is %t", true);             // prints: "The boolean value is 1"
+ *   sprintf("Hello, %a", array("w", "o", "r", "l", "d")); // prints: "Hello, world"
+ *   sprintf("%cThe color is yellow", "^3");               // prints: "^3The color is yellow"
+ *   sprintf("The JSON is %j", "{\"key\": \"value\"}");    // prints: "The JSON is {"key": "value"}"
+ *   sprintf("%%");                                        // prints: "%"
  * ```
  */
-sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
+sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
     argIndex = 0;
     new = "";
 
@@ -572,14 +573,14 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
 
             // parse the format type
             type = GetSubStr(s, i + 1, i + 2);
-            if (!is_valid_token(type)) {
+        if (!is_valid_token(type)) {
                 new += char;
                 i++;
                 continue;
             }
 
             // get the argument
-            arg = get_argument(argIndex, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1);        
+            arg = get_argument(argIndex, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1);        
             if (isdefined(arg)) {
                 // check the type of the argument
                 type_name = tokentype(type);
@@ -636,15 +637,15 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
  *   s - The format string
  *   a, b, c, d, e (etc..) - The arguments to format
  *
- * Limitations: only supports 35 arguments
+ * Limitations: only supports 45 arguments
 
  * Example Usage:
  * ```
  *   printf("Hello, %s", "World"); // prints: Hello, World
  * ```
  */
-printf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
-    print(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
+printf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
+    print(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1));
 }
 
 /*
@@ -654,15 +655,15 @@ printf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a
  *   s - The format string
  *   a, b, c, d, e (etc..) - The arguments to format
  *
- * Limitations: only supports 35 arguments
+ * Limitations: only supports 45 arguments
  *
  * Example Usage:
  * ```
  *   printlnf("Hello, %s", "World"); // prints: Hello, World\n
  * ```
  */
-printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
-    println(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
+printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
+    println(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1));
 }
 
 /*
@@ -672,7 +673,7 @@ printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z,
  *   s - The format string
  *   a, b, c, d, e (etc..) - The arguments to format
  *
- * Limitations: only supports 35 arguments
+ * Limitations: only supports 45 arguments
  *
  * Example Usage:
  * ```
@@ -689,8 +690,8 @@ printlnf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z,
  *   }
  * ```
  */
-iprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
-    iprintln(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
+iprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
+    iprintln(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1));
 }
 
 /*
@@ -700,7 +701,7 @@ iprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
  *   s - The format string
  *   a, b, c, d, e (etc..) - The arguments to format
  *
- * Limitations: only supports 35 arguments
+ * Limitations: only supports 45 arguments
  *
  * Example Usage:
  * ```
@@ -717,8 +718,8 @@ iprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
  *   }
  * ```
  */
-iprintboldf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
-    iprintlnbold(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1));
+iprintboldf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
+    iprintlnbold(sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1));
 }
 
 
@@ -838,7 +839,7 @@ is_valid_number(v) {
 }
 
 // get_argument() Returns the argument at the specified index
-get_argument(index, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
+get_argument(index, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
     switch (index) {
         case 0: return a;
         case 1: return b;
@@ -876,6 +877,16 @@ get_argument(index, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, 
         case 33: return l1;
         case 34: return m1;
         case 35: return n1;
+        case 36: return o1;
+        case 37: return p1;
+        case 38: return q1;
+        case 39: return r1;
+        case 40: return t1;
+        case 41: return u1;
+        case 42: return v1;
+        case 43: return x1;
+        case 44: return y1;
+        case 45: return z1;
         default: return undefined;
     }
 }
