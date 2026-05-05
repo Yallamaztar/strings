@@ -35,6 +35,13 @@
  *    split(s, sep)
  *    join(arr, sep)
  *    trim(s)
+ *    contains(s, substr)
+ *    reverse(s)
+ *    char_at(s, index)
+ *    index_of(s, substr)
+ *    repeat(s, count)
+ *    count(s, substr)
+ *    remove(s, substr)
  *
  *  Formatting / Printing
  *    sprintf(s, ...args)
@@ -45,11 +52,13 @@
  *
  *  Type / Conversion Helpers
  *    type(v)
+ *    is_empty(s)
  *    tokentype(s)
  *    toint(s)
  *    len(v)
  *    strlen(s)
  *    substr(s, start, end)
+ *    build_array(a)
  *
  *  Validation Helpers
  *    is_valid_token(token)
@@ -71,10 +80,10 @@
  *   }
  *
  *   s = replace(s, "world", "universe");
- *   printlnf("Modified string: %s", s);
+ *   printlnf("Modified string: %s", s); // prints: "hello universe"
  *
  *   parts = split("a;b;c", ";");
- *   printlnf("Parts: %a", parts);
+ *   printlnf("Parts: %a", parts); // prints: ["a", "b", "c"]
  *   
  *   level thread onPlayerConnect();
  * }
@@ -172,7 +181,7 @@ replace(s, from, to) {
     for (i = 0; i < strlen(s); i++) {
         if (substr(s, i, i + strlen(from)) == from) {
             new += to;
-            i += strlen(from);
+            i += strlen(from) - 1;
         } else {
             new += substr(s, i, i + 1);
         }
@@ -286,6 +295,242 @@ trim(s) {
 }
 
 /*
+ * contains() Checks if a string contains a specific substring
+ *
+ * Params:
+ *   s      - The string to check
+ *   prefix - The substring to look for
+ *
+ * Returns:
+ *    true if the string contains the substring, false otherwise
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = "Hello, world!";
+ *   print(contains(s, "world")); // prints: 1 (true)
+ * }
+ * ```
+ */
+contains(s, prefix) {
+    for (i=0; i<strlen(s); i++) {
+        if (substr(s, i, i + strlen(prefix)) == prefix) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/*
+ * reverse() Reverses a string or array
+ *
+ * Params:
+ *   v - The string or array to reverse
+ *
+ * Returns:
+ *    The reversed string or array
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = "hello";
+ *   s = reverse(s);
+ *   print(s); // prints: "olleh"
+ *
+ *   arr = array("h", "e", "l", "l", "o")
+ *   arr = reverse(arr);
+ *   for (i=0; i<len(arr); i++) {
+ *     print(arr[i]); // prints: "olleh"
+ *   }
+ * }
+ * ```
+ */
+reverse(v) {
+    if (IsString(v)) {
+        new = "";
+        for (i = strlen(v) - 1; i >= 0; i--) {
+            new += substr(v, i, i + 1);
+        }
+        return new;
+    }
+
+    if (IsArray(v)) {
+        new = [];
+        for (i = len(v) - 1; i >= 0; i--) {
+            new[len(new)] = v[i];
+        }
+        return new;
+    }
+
+    return v;
+}
+
+/*
+ * char_at() Returns the character at a specific index in a string
+ *
+ * Params:
+ *   s     - The string to get the character from
+ *   index - The index of the character to get
+ *
+ * Returns:
+ *    The character at the specified index
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = "hello";
+ *   c = char_at(s, 0);
+ *   print(c); // prints: "h"
+ * }
+ * ```
+ */
+char_at(s, index) {
+    return substr(s, index, index + 1);
+}
+
+/*
+ * index_of() Returns the index of the first occurrence of a substring in a string
+ *
+ * Params:
+ *   s      - The string to search in
+ *   prefix - The substring to search for
+ *
+ * Returns:
+ *    The index of the first occurrence of the substring, or -1 if not found
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = "hello";
+ *   i = index_of(s, "l");
+ *   print(i); // prints: 2
+ * }
+ * ```
+ */
+index_of(s, substr) {
+    if (strlen(substr) == 0) {
+        return -1;
+    }
+
+    for (i = 0; i <= strlen(s) - strlen(substr); i++) {
+        if (substr(s, i, i + strlen(substr)) == substr) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+/*
+ * repeat() Repeats a string a specified number of times
+ *
+ * Params:
+ *   s     - The string to repeat
+ *   times - The number of times to repeat the string
+ *
+ * Returns:
+ *    The repeated string
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = repeat("hello ", 3);
+ *   print(s); // prints: "hello hello hello "
+ * }
+ * ```
+ */
+repeat(s, count) {
+    new = "";
+    for (i = 0; i < count; i++) {
+        new += s;
+    }
+    return new;
+}
+
+/*
+ * count() Counts the number of occurrences of a substring in a string
+ *
+ * Params:
+ *   s      - The string to search in
+ *   substr - The substring to search for
+ *
+ * Returns:
+ *    The number of occurrences of the substring
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = "hello world, hello everyone";
+ *   count = count(s, "hello");
+ *   print(count); // prints: 2
+ * }
+ * ```
+ */
+count(s, substr) {
+    if (strlen(substr) == 0) {
+        return -1;
+    }
+
+    count = 0;
+    for (i = 0; i <= strlen(s) - strlen(substr); i++) {
+        if (substr(s, i, i + strlen(substr)) == substr) {
+            count++;
+            i += strlen(needle) - 1;
+        }
+    }
+
+    return count;
+}
+
+/*
+ * remove() Removes all occurrences of a substring from a string
+ *
+ * Params:
+ *   s      - The string to remove the substring from
+ *   substr - The substring to remove
+ *
+ * Returns:
+ *    The string with the substring removed
+ *
+ * Example Usage:
+ * ```
+ * #include scripts\strings;
+ * init() {
+ *   s = remove("hello world, hello everyone", "hello");
+ *   print(s); // prints: " world,  everyone"
+ * }
+ * ```
+ */
+remove(s, substr) {
+    if (strlen(substr) == 0) {
+        return -1;
+    }
+
+    new = "";
+    for (i = 0; i <= strlen(s) - strlen(needle); ) {
+        if (substr(s, i, i + strlen(needle)) == needle) {
+            i += strlen(needle);
+        } else {
+            new += substr(s, i, i + 1);
+            i++;
+        }
+    }
+
+    while (i < strlen(s)) {
+        new += substr(s, i, i + 1);
+        i++;
+    }
+
+    return new;
+}
+
+/*
  * sprintf() Formats a string with the given arguments
  *
  * Params:
@@ -319,7 +564,6 @@ trim(s) {
  *   sprintf("%cThe color is yellow", "^3");
  * }
  * ```
- *
  */
 sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1) {
     argIndex = 0;
@@ -347,7 +591,7 @@ sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, 
             arg = get_argument(argIndex, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1);        
             if (isdefined(arg)) {
                 // check the type of the argument
-                type_name = token_type(type);
+                type_name = tokentype(type);
                 if (type_name == "string") {
                     if (!IsString(arg)) {
                         return "[^1error^7] you have a type mismatch (expected ^1string^7 got " + type(arg) + " at position ^1" + (i + 1) + ":" + (i + 2) + "^7)";
@@ -517,6 +761,11 @@ toint(s) {
     return i;
 }
 
+// iswhitespace() Returns true if a string contains only whitespace characters
+iswhitespace(c) {
+    return c == " " || c == "\t" || c == "\n";
+}
+
 // tokentype() Returns the type of a token in a string
 tokentype(s) {
     switch (s) {
@@ -551,6 +800,11 @@ type(v) {
     if (IsColor(v)) return "color";
 
     return "unknown";
+}
+
+is_empty(s) {
+    if (s == "" || strlen(s) == 0) return true;
+    return false;
 }
 
 // IsUInt() Returns true if a variable is an unsigned integer
@@ -597,6 +851,20 @@ is_valid_number(v) {
         case "9": return true;
         default: return false;
     }
+}
+
+// build_array() Returns a string representation of an array
+build_array(a) {
+    arr = "[";
+    for (i = 0; i < a.size; i++) {
+        arr += a[i];
+        if (i < a.size - 1) {
+            arr += ", ";
+        }
+    }
+
+    arr += "]";
+    return arr;
 }
 
 // get_argument() Returns the argument at the specified index
