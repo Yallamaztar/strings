@@ -6,7 +6,7 @@
  * different helper functions, made for Plutonium T6 (Black Ops II)
  * ==================================================================
  * API Reference (refer to each function implementation for detailed documentation and usage)
- 
+
  *  String Utilities
  *    starts_with(s, prefix)
  *    ends_with(s, suffix)
@@ -523,14 +523,14 @@ truncate(s, len, suffix) {
  *
  * Example Usage:
  * ```
- *   sprintf("Hello, %s", "World");                        // prints: "Hello, World"
- *   sprintf("The answer is %d", -42);                     // prints: "The answer is -42"
- *   sprintf("The value is %u", 42);                       // prints: "The value is 42"
- *   sprintf("The value is %f", 3.14);                     // prints: "The value is 3.14"
- *   sprintf("The boolean value is %t", true);             // prints: "The boolean value is 1"
- *   sprintf("Hello, %a", array("w", "o", "r", "l", "d")); // prints: "Hello, world"
- *   sprintf("%cThe color is yellow", "^3");               // prints: "^3The color is yellow"
- *   sprintf("%%");                                        // prints: "%"
+ *   sprintf("Hello, %s", "World");                        // "Hello, World"
+ *   sprintf("The answer is %d", -42);                     // "The answer is -42"
+ *   sprintf("The value is %u", 42);                       // "The value is 42"
+ *   sprintf("The value is %f", 3.14);                     // "The value is 3.14"
+ *   sprintf("The boolean value is %t", true);             // "The boolean value is 1"
+ *   sprintf("Hello, %a", array("w", "o", "r", "l", "d")); // "Hello, world"
+ *   sprintf("%cThe color is yellow", "^3");               // "^3The color is yellow"
+ *   sprintf("%%");                                        // "%"
  * ```
  */
 sprintf(s, a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, q, r, t, u, v, x, y, z, a1, b1, c1, d1, e1, f1, g1, h1, j1, k1, l1, m1, n1, o1, p1, q1, r1, t1, u1, v1, x1, y1, z1) {
