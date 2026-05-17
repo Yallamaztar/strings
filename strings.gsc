@@ -14,9 +14,12 @@
  *    split(s, sep)
  *    join(arr, sep)
  *    strip(s)
+ *    trim_left(s)
+ *    trim_right(s)
  *    contains(s, substr)
  *    reverse(s)
  *    char_at(s, index)
+ *    repeat(s, count)
  *    index_of(s, substr)
  *    capitalize(s)
  *    truncate(s, len, suffix)
@@ -248,6 +251,52 @@ strip(s) {
     }
 
     return substr(s, start, end);
+}
+
+/*
+ * trim_left(s) Removes leading whitespace from a string
+ *
+ * Params:
+ *   s - The string to trim
+ *
+ * Returns:
+ *    The trimmed string
+ */
+trim_left(s) {
+    if (!isdefined(s)) {
+        return "";
+    }
+
+    for (i = 0; i < strlen(s); i++) {
+        c = char_at(s, i);
+        if (c != " " && c != "\t" && c != "\n" && c != "\r") {
+            break;
+        }
+    }
+    return substr(s, i, strlen(s));
+}
+
+/*
+ * trim_right(s) Removes trailing whitespace from a string
+ *
+ * Params:
+ *   s - The string to trim
+ *
+ * Returns:
+ *    The trimmed string
+ */
+trim_right(s) {
+    if (!isdefined(s)) {
+        return "";
+    }
+
+    for (i = strlen(s) - 1; i >= 0; i--) {
+        c = char_at(s, i);
+        if (c != " " && c != "\t" && c != "\n" && c != "\r") {
+            break;
+        }
+    }
+    return substr(s, 0, i + 1);
 }
 
 /*
