@@ -11,6 +11,7 @@
  *    starts_with(s, prefix)
  *    ends_with(s, suffix)
  *    replace(s, from, to)
+ *    replace_all(s, from, to)
  *    split(s, sep)
  *    join(arr, sep)
  *    strip(s)
@@ -46,6 +47,7 @@
  *    IsBoolean(v)
  *    IsColor(v)
  *    is_valid_number(v)
+ *    
  * ==================================================================
  * Example Usage:
  * ```
@@ -147,37 +149,6 @@ ends_with(s, suffix) {
 replace(s, from, to) {
     new = "";
     
-    for (i = 0; i < strlen(s); i++) {
-        if (substr(s, i, i + strlen(from)) == from) {
-            new += to;
-            i += strlen(from) - 1;
-        } else {
-            new += substr(s, i, i + 1);
-        }
-    }
-    return new;
-}
-
-/*
- * replace_all(s, from, to) Replaces all occurrences of a substring with another substring
- *
- * Params:
- *   s    - The string to modify
- *   from - The substring to replace
- *   to   - The substring to replace with
- *
- * Returns:
- *    The modified string
- *
- * Example usage:
- * ```
- * s = "hello world hello";
- * s = replace_all(s, "hello", "hi");
- * print(s); // prints: hi world hi
- * ```
- */
-replace_all(s, from, to) {
-    new = "";
     for (i = 0; i < strlen(s); i++) {
         if (substr(s, i, i + strlen(from)) == from) {
             new += to;

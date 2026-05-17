@@ -38,6 +38,12 @@ Joins an array into a single string.
 #### `strip(s)`
 Removes leading and trailing spaces.
 
+#### `trim_left(s)`
+Removes leading spaces.
+
+#### `trim_right(s)`
+Removes trailing spaces.
+
 #### `contains(s, substr)`
 Checks if a substring exists inside a string.
 
@@ -137,6 +143,9 @@ Checks if string is a numeric digit.
 
 #### `is_valid_token(token)`
 Validates formatting tokens.
+
+#### `is_whitespace(s)`
+Checks if strings contains only whitespaces
 
 ---
 
