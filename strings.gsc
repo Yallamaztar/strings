@@ -159,6 +159,37 @@ replace(s, from, to) {
 }
 
 /*
+ * replace_all(s, from, to) Replaces all occurrences of a substring with another substring
+ *
+ * Params:
+ *   s    - The string to modify
+ *   from - The substring to replace
+ *   to   - The substring to replace with
+ *
+ * Returns:
+ *    The modified string
+ *
+ * Example usage:
+ * ```
+ * s = "hello world hello";
+ * s = replace_all(s, "hello", "hi");
+ * print(s); // prints: hi world hi
+ * ```
+ */
+replace_all(s, from, to) {
+    new = "";
+    for (i = 0; i < strlen(s); i++) {
+        if (substr(s, i, i + strlen(from)) == from) {
+            new += to;
+            i += strlen(from) - 1;
+        } else {
+            new += substr(s, i, i + 1);
+        }
+    }
+    return new;
+}
+
+/*
  * split() Splits a string into parts based on a separator
  * 
  * Params:
@@ -261,6 +292,12 @@ strip(s) {
  *
  * Returns:
  *    The trimmed string
+ *
+ * Example Usage:
+ * ```
+ * s = trim_left("  hello world  ");
+ * print(s); // prints: "hello world  "
+ * ```
  */
 trim_left(s) {
     if (!isdefined(s)) {
@@ -284,6 +321,12 @@ trim_left(s) {
  *
  * Returns:
  *    The trimmed string
+ *
+ * Example Usage:
+ * ```
+ * s = trim_right("  hello world  ");
+ * print(s); // prints: "  hello world"
+ * ```
  */
 trim_right(s) {
     if (!isdefined(s)) {
@@ -865,6 +908,14 @@ is_valid_number(v) {
         case "9": return true;
         default: return false;
     }
+}
+
+// is_whitespace(s) Returns true if a string contains only whitespace characters
+is_whitespace(s) {
+    if (s == " " || s == "\t" || s == "\n") {
+        return true;
+    }
+    return false;
 }
 
 // get_argument() Returns the argument at the specified index
