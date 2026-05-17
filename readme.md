@@ -107,6 +107,9 @@ Returns substring.
 #### `toint(s)`
 Converts string to integer safely.
 
+#### `string(v)`
+Converts variable to a string.
+
 #### `type(v)`
 Returns variable type as string.
 

@@ -29,6 +29,7 @@
  *    iprintboldf(s, ...args)
  *
  *  Type / Conversion Helpers
+ *    string(v)
  *    type(v)
  *    tokentype(s)
  *    toint(s)
@@ -750,6 +751,11 @@ is_valid_token(token) {
         return false;
     }
     return true;
+}
+
+// string(v) Converts a variable to a string
+string(v) {
+    return ""+v;
 }
 
 // type() Returns the type of a variable
